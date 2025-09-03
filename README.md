@@ -64,7 +64,7 @@ Isso iniciará o RabbitMQ.
    - Usuário: `guest`  
    - Senha: `guest`
 
-6. **Depois disso, vá no Docker Desktop → aba "Containers" → clique em “Run service” na aplicação.**
+6. **Depois disso, vá no código no VSCode → Procure pelo arquivo “docker-compose.yml” → Procure pela linha “app:” → clique em “Run service” no código.**
 
 ---
 
