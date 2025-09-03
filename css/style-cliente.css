@@ -151,19 +151,22 @@ button:hover {
 /* Status colors */
 
 .status-realizado {
-  background-color: #2196F3; /* Azul */
+  background-color: #2196F3; 
 }
 
 .status-preparo {
-  background-color: #FF9800; /* Laranja */
+  background-color: #FF9800; 
 }
 
 .status-entrega {
-  background-color: #009688; /* Verde azulado */
+  background-color: #009688; 
 }
 
 .status-entregue {
-  background-color: #4CAF50; /* Verde */
+  background-color: #4CAF50;
+}
+.status-cancelado {
+  background-color: #b30909;
 }
 
 /* Scrollbar estilizado para a lista de pedidos */
