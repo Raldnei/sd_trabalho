@@ -1,0 +1,14 @@
+{
+  "name": "delivery-notifications",
+  "version": "1.0.0",
+  "description": "Sistema de notificações em tempo real com RabbitMQ e WebSocket",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+   "amqplib": "^0.10.3",
+    "express": "^4.18.2",
+    "ws": "^8.13.0"
+  }
+}

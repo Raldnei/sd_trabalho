@@ -1,0 +1,202 @@
+/* Reset básico */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  position: relative;
+  margin: 0;
+  min-height: 100vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 40px 20px;
+  overflow: hidden; 
+
+ 
+  background-image: url('https://www.papeldeparede.etc.br/fotos/wp-content/uploads/quadrados-azuis.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.575); 
+  pointer-events: none; 
+  z-index: -1; 
+  backdrop-filter: blur(8px); 
+}
+
+
+.container {
+  background: #fff;
+  max-width: 900px;
+  width: 100%;
+  border-radius: 10px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  padding: 30px 40px;
+}
+
+h1 {
+  font-weight: 700;
+  margin-bottom: 30px;
+  text-align: center;
+  color: #222;
+  letter-spacing: 1px;
+}
+
+form {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 30px;
+  align-items: center;
+}
+
+input[type="text"],
+input[type="number"] {
+  padding: 12px 15px;
+  font-size: 16px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus {
+  border-color: #2196F3;
+  outline: none;
+}
+
+input[type="text"] {
+  flex: 1;
+}
+
+input[type="number"] {
+  width: 100px;
+}
+
+button {
+  padding: 12px 25px;
+  background-color: #2196F3;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 4px 10px rgba(33, 150, 243, 0.3);
+}
+
+button:hover {
+  background-color: #0b7dda;
+  box-shadow: 0 6px 15px rgba(11, 125, 218, 0.5);
+}
+
+.pedidos-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-height: 400px;
+  overflow-y: auto;
+  padding-right: 5px;
+}
+
+.pedido {
+  border: 1px solid #ddd;
+  padding: 15px 20px;
+  border-radius: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fafafa;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  transition: background-color 0.3s ease;
+}
+
+.pedido:hover {
+  background-color: #f0f8ff;
+}
+
+.descricao {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+}
+
+.status {
+  font-weight: 700;
+  padding: 6px 15px;
+  border-radius: 20px;
+  color: white;
+  min-width: 140px;
+  text-align: center;
+  user-select: none;
+  text-transform: uppercase;
+  font-size: 14px;
+  letter-spacing: 0.05em;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+}
+
+/* Status colors */
+
+.status-realizado {
+  background-color: #2196F3; /* Azul */
+}
+
+.status-preparo {
+  background-color: #FF9800; /* Laranja */
+}
+
+.status-entrega {
+  background-color: #009688; /* Verde azulado */
+}
+
+.status-entregue {
+  background-color: #4CAF50; /* Verde */
+}
+
+/* Scrollbar estilizado para a lista de pedidos */
+.pedidos-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.pedidos-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.pedidos-container::-webkit-scrollbar-thumb {
+  background-color: rgba(33, 150, 243, 0.4);
+  border-radius: 10px;
+}
+
+/* Responsividade */
+@media (max-width: 480px) {
+  .container {
+    padding: 20px;
+  }
+
+  input[type="number"] {
+    width: 80px;
+  }
+
+  .descricao {
+    font-size: 16px;
+  }
+
+  .status {
+    min-width: 120px;
+    font-size: 12px;
+    padding: 5px 12px;
+  }
+}
