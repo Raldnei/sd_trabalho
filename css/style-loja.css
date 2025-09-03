@@ -89,3 +89,29 @@ select {
   background-color: #b30909; 
   color: white; 
 }
+.pedidos-container {
+  max-height: 400px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.pedidos-container thead {
+  position: sticky;
+  top: 0;
+  background-color: #f1f1f1;
+  z-index: 1;
+}
+
+.pedidos-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.pedidos-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.pedidos-container::-webkit-scrollbar-thumb {
+  background-color: rgba(33, 150, 243, 0.4);
+  border-radius: 10px;
+}
