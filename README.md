@@ -1,5 +1,19 @@
 <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&pause=1000&width=850&lines=Este+%C3%A9+apenas+um+prot%C3%B3tipo+para+fins+educativos!" alt="Typing SVG" />
 
+# 🧾 Tecnologias utilizadas
+<p>
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" alt="Node.js" width="32" height="32" style="margin-right: 10px;" />
+  <img src="https://img.icons8.com/color/48/000000/express-js.png" alt="Express" width="32" height="32" style="margin-right: 10px;" />
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/rabbitmq/rabbitmq-original.svg" alt="RabbitMQ" width="32" height="32" style="margin-right: 10px;" />
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML5" width="32" height="32" style="margin-right: 10px;" />
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS3" width="32" height="32" style="margin-right: 10px;" />
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JavaScript" width="32" height="32" />
+  <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/docker/docker-original.svg" alt="Docker" width="40" height="40"/>
+
+</p>
+
+
+
 
 # 🧾 Sistema de Pedidos com WebSocket + RabbitMQ
 
