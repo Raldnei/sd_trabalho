@@ -70,7 +70,7 @@ Este projeto simula um sistema de pedidos em tempo real usando:
 4. Execute:
 
 ```bash
-docker-compose up -d
+docker-compose up --build
 ```
 
 Isso iniciará o RabbitMQ.
