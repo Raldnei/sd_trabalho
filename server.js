@@ -126,6 +126,7 @@ appLoja.post('/pedido/:id/status', async (req, res) => {
 
 // --- WEBSOCKET (para comunicação em tempo real) ---
 
+
 const appWs = express();
 const serverWs = require('http').createServer(appWs);
 const wss = new WebSocket.Server({ server: serverWs });

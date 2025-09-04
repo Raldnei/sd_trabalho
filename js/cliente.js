@@ -3,10 +3,22 @@ import { CLIENT_BASE_URL, WS_URL } from './config.js';
 
 // Pede o ID ou nome do usuário quando abre o cliente
 let usuarioId = '';
+//Função para mostrar o usuário
+function solicitarUsuario() {
+  while (!usuarioId) {
+    usuarioId = prompt('Digite seu nome ou ID de usuário:');
+  }
+  document.getElementById('nome-usuario').textContent = usuarioId;
+  document.getElementById('btn-sair').style.display = 'inline-block';
+  document.getElementById('saudacao').style.display = 'inline-block';
 
-while (!usuarioId) {
-  usuarioId = prompt('Digite seu nome ou ID de usuário:');
 }
+solicitarUsuario();
+
+// Comportamento do botão Sair:
+document.getElementById('btn-sair').addEventListener('click', () => {
+  location.reload();
+});
 
 // Cria a conexão WebSocket
 const ws = new WebSocket(WS_URL);
