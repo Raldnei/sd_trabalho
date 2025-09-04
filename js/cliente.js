@@ -2,7 +2,11 @@
 import { CLIENT_BASE_URL, WS_URL } from './config.js';
 
 // Pede o ID ou nome do usuário quando abre o cliente
-const usuarioId = prompt("Digite seu nome ou ID de usuário:");
+let usuarioId = '';
+
+while (!usuarioId) {
+  usuarioId = prompt('Digite seu nome ou ID de usuário:');
+}
 
 // Cria a conexão WebSocket
 const ws = new WebSocket(WS_URL);

@@ -72,6 +72,7 @@ function renderPedidos() {
     // Adiciona as colunas da linha com dados do pedido
     tr.innerHTML = `
       <td>${pedido.id}</td>
+      <td>${pedido.usuarioId}</td>
       <td>${pedido.descricao}</td>
       <td>${pedido.quantidade || 1}</td>
       <td>${pedido.status}</td>
