@@ -1,3 +1,6 @@
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&pause=1000&width=850&lines=Este+%C3%A9+apenas+um+prot%C3%B3tipo+para+fins+educativos!" alt="Typing SVG" />
+
+
 # 🧾 Sistema de Pedidos com WebSocket + RabbitMQ
 
 Este projeto simula um sistema de pedidos em tempo real usando:
@@ -170,4 +173,58 @@ Acesse: http://localhost:15672
 
 ---
 
-## ✉️ End
+## ✉️ 
+
+
+# Sistema de Notificações em Tempo Real para Delivery
+
+## 1. Escolha entre RabbitMQ e Kafka
+
+Neste projeto, escolhemos utilizar **RabbitMQ** em conjunto com **WebSocket** para implementar o sistema de notificações em tempo real. A justificativa para essa escolha inclui:
+
+- **Modelo flexível de mensagens:** RabbitMQ oferece vários tipos de exchanges (fanout, direct, topic), facilitando o roteamento das mensagens conforme a necessidade.
+- **Baixa latência:** Ideal para notificações rápidas e imediatas, garantindo que os usuários sejam informados instantaneamente sobre o status do pedido.
+- **Simplicidade de integração:** RabbitMQ é fácil de configurar e integrar com WebSocket, acelerando o desenvolvimento do protótipo.
+- **WebSocket:** Utilizado para comunicação bidirecional e em tempo real entre servidor e cliente, mantendo a conexão aberta para envio instantâneo das notificações.
+
+Embora o Kafka seja robusto para processamento de grandes volumes e streaming de dados com alta durabilidade, o RabbitMQ é mais adequado para sistemas de notificações em tempo real com menor complexidade e latência.
+
+## 2. Arquitetura do Sistema
+
+### Visão Geral
+
+- O servidor gerencia os pedidos enviados pelos clientes e atualizações feitas pela loja.
+- Toda vez que um pedido é criado ou seu status é atualizado, o servidor publica uma mensagem na **exchange fanout** do RabbitMQ.
+- O servidor WebSocket escuta essa exchange e distribui as mensagens para todos os clientes conectados em tempo real.
+- Clientes (usuários finais) e a loja recebem as notificações instantaneamente via WebSocket e atualizam suas interfaces.
+
+### Escalabilidade
+
+- O RabbitMQ pode ser configurado em cluster para suportar alta carga.
+- O servidor WebSocket pode ser escalado horizontalmente para suportar múltiplas conexões simultâneas.
+- O uso de uma exchange fanout permite o broadcast eficiente das mensagens para múltiplos consumidores.
+
+### Latência
+
+- A combinação RabbitMQ + WebSocket proporciona baixa latência, com entrega quase instantânea das notificações.
+- WebSocket mantém conexões abertas, evitando overhead de reconexões ou polling.
+
+### Tolerância a Falhas
+
+- RabbitMQ oferece persistência e confirmações para garantir que mensagens não sejam perdidas.
+- O servidor tenta se reconectar automaticamente ao RabbitMQ em caso de falha.
+- WebSocket detecta desconexões e possibilita reconexão automática dos clientes.
+- O sistema mantém os pedidos em memória (para protótipo), podendo ser adaptado para persistência em banco de dados.
+
+## 3. Protótipo Implementado
+
+- Servidor Node.js que gerencia pedidos via API REST e publica mensagens no RabbitMQ.
+- Exchange do tipo **fanout** para distribuir as notificações para todos os consumidores.
+- Servidor WebSocket que repassa as mensagens para os clientes conectados.
+- Cliente web que recebe as notificações em tempo real e atualiza a interface.
+- Loja com painel para visualização e atualização dos pedidos em tempo real.
+
+---
+
+Este sistema demonstra a aplicação prática de filas de mensagens e comunicação em tempo real para melhorar a experiência do usuário em um sistema de delivery, garantindo notificações rápidas, escalabilidade e tolerância a falhas.
+
