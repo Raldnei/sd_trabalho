@@ -1,6 +1,9 @@
 // Importa as URLs de configuração do WebSocket e da API REST
 import { CLIENT_BASE_URL, WS_URL } from './config.js';
 
+// Pede o ID ou nome do usuário quando abre o cliente
+const usuarioId = prompt("Digite seu nome ou ID de usuário:");
+
 // Cria a conexão WebSocket
 const ws = new WebSocket(WS_URL);
 
@@ -12,6 +15,9 @@ ws.addEventListener('open', () => {
 // Evento disparado sempre que uma nova mensagem chega do servidor
 ws.addEventListener('message', (event) => {
   const data = JSON.parse(event.data); // Converte a mensagem recebida em JSON
+
+  // Filtra só mensagens para o usuário atual
+  if (data.pedido?.usuarioId !== usuarioId) return;
 
   // Trata o tipo da mensagem recebida
   if (data.type === 'novo_pedido') {
@@ -42,7 +48,10 @@ async function carregarPedidosIniciais() {
     const res = await fetch(`${CLIENT_BASE_URL}/pedidos`);
     if (!res.ok) throw new Error('Erro ao carregar pedidos');
     const pedidos = await res.json();
-    pedidos.forEach(adicionarPedidoNaTela); // Adiciona cada pedido na interface
+
+    // Filtra e adiciona só pedidos do usuário atual
+    pedidos.filter(p => p.usuarioId === usuarioId)
+           .forEach(adicionarPedidoNaTela);
   } catch (err) {
     console.error('Erro ao carregar pedidos iniciais:', err);
   }
@@ -53,43 +62,45 @@ function adicionarPedidoNaTela(pedido) {
   const lista = document.getElementById('lista-pedidos');
   if (!lista) return;
 
-  // Evita adicionar o mesmo pedido mais de uma vez
+  // Evita duplicatas
   if (document.getElementById(`pedido-${pedido.id}`)) return;
 
-  // Cria o container principal do pedido
+  // Cria a div para o pedido
   const div = document.createElement('div');
   div.id = `pedido-${pedido.id}`;
   div.className = 'pedido';
 
-  // Cria a descrição do pedido
+  // Cria div para descrição e quantidade
   const descricao = document.createElement('div');
   descricao.className = 'descricao';
   descricao.textContent = `${pedido.descricao} (x${pedido.quantidade || 1})`;
 
-  // Cria a área de status do pedido com a cor correspondente
+  // Cria div para status e adiciona classe para estilo
   const status = document.createElement('div');
   status.className = 'status ' + getStatusClass(pedido.status);
   status.textContent = pedido.status;
 
-  // Adiciona os elementos na div principal
+  // Adiciona descrição e status à div do pedido
   div.appendChild(descricao);
   div.appendChild(status);
+
+  // Adiciona a div na lista
   lista.appendChild(div);
 }
 
-// Função que atualiza o status de um pedido já existente na tela
+// Função que atualiza o status de um pedido já renderizado
 function atualizarStatusNaTela(pedido) {
   const pedidoDiv = document.getElementById(`pedido-${pedido.id}`);
   if (!pedidoDiv) return;
 
   const statusDiv = pedidoDiv.querySelector('.status');
   if (statusDiv) {
-    statusDiv.textContent = pedido.status; // Atualiza o texto do status
-    statusDiv.className = 'status ' + getStatusClass(pedido.status); // Atualiza a classe de cor
+    statusDiv.textContent = pedido.status;
+    statusDiv.className = 'status ' + getStatusClass(pedido.status);
   }
 }
 
-// Mapeia os nomes dos status para as classes CSS correspondentes
+// Função que retorna a classe CSS para cada status do pedido
 function getStatusClass(status) {
   switch (status.toLowerCase()) {
     case 'pedido realizado':
@@ -107,29 +118,25 @@ function getStatusClass(status) {
   }
 }
 
-// Adiciona evento de envio do formulário para criar novo pedido
+// Envia um novo pedido para o backend via HTTP POST (incluindo o usuarioId)
 document.getElementById('form-pedido').addEventListener('submit', async (e) => {
-  e.preventDefault(); // Evita que a página recarregue
+  e.preventDefault();
 
-  // Pega os valores dos inputs
   const descricao = document.getElementById('descricao').value.trim();
   const quantidade = parseInt(document.getElementById('quantidade')?.value) || 1;
 
-  // Validação simples
   if (!descricao) return alert('Informe a descrição do pedido');
 
   try {
-    // Envia o pedido via POST para o backend
     const res = await fetch('/pedido', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ descricao, quantidade }),
+      body: JSON.stringify({ descricao, quantidade, usuarioId }),
     });
 
-    // Trata possíveis erros
     if (!res.ok) throw new Error('Erro ao enviar pedido');
 
-    // Limpa os campos do formulário após envio bem-sucedido
+    // Limpa o formulário após envio
     document.getElementById('descricao').value = '';
     if (document.getElementById('quantidade')) document.getElementById('quantidade').value = '1';
   } catch (err) {

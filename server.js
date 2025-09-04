@@ -5,7 +5,6 @@ const WebSocket = require('ws');
 const path = require('path');
 const { CLIENT_PORT, LOJA_PORT, WS_PORT } = require('./config');
 
-
 // Nomes da fila e do canal de mensagens (exchange)
 const QUEUE_NAME = 'pedidos';
 const EXCHANGE_NAME = 'pedidos_status';
@@ -57,19 +56,20 @@ appCliente.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'html', 'cliente.html'));
 });
 
-// Enviar pedido do cliente
+// Enviar pedido do cliente (agora recebe usuarioId)
 appCliente.post('/pedido', async (req, res) => {
   if (!channel) {
     return res.status(503).send('Serviço temporariamente indisponível');
   }
 
-  const { descricao, quantidade } = req.body;
+  const { descricao, quantidade, usuarioId } = req.body;
   if (!descricao) return res.status(400).send('Descrição é obrigatória');
+  if (!usuarioId) return res.status(400).send('Usuário é obrigatório');
 
-  const qtd = Number(quantidade) || 1; // usa 1 como padrão se não passar quantidade válida
+  const qtd = Number(quantidade) || 1;
 
-  // Cria o pedido e adiciona na lista
-  const pedido = { id: pedidoId++, descricao, quantidade: qtd, status: 'Pedido realizado' };
+  // Cria o pedido incluindo o usuarioId e adiciona na lista
+  const pedido = { id: pedidoId++, descricao, quantidade: qtd, status: 'Pedido realizado', usuarioId };
   pedidos.push(pedido);
 
   // Publica no RabbitMQ para avisar outros serviços
@@ -146,6 +146,8 @@ async function startWS() {
     channel.consume(q.queue, msg => {
       if (msg !== null) {
         const content = msg.content.toString();
+
+        // Envia para todos os clientes WS conectados (filtragem no cliente)
         for (const ws of clients) {
           if (ws.readyState === WebSocket.OPEN) {
             ws.send(content);
@@ -171,9 +173,9 @@ async function startWS() {
       });
     });
 
-    // Sobe o servidor WebSocket na porta 9999
+    // Sobe o servidor WebSocket na porta WS_PORT
     serverWs.listen(WS_PORT, () => {
-      console.log('Servidor WebSocket rodando na porta 9999');
+      console.log(`Servidor WebSocket rodando na porta ${WS_PORT}`);
     });
   } catch (e) {
     console.error('Erro ao iniciar WS:', e);
