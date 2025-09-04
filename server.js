@@ -69,13 +69,24 @@ appCliente.post('/pedido', async (req, res) => {
   const qtd = Number(quantidade) || 1;
 
   // Cria o pedido incluindo o usuarioId e adiciona na lista
+
+
   const pedido = { id: pedidoId++, descricao, quantidade: qtd, status: 'Pedido realizado', usuarioId };
   pedidos.push(pedido);
 
   // Publica no RabbitMQ para avisar outros serviços
   try {
-    channel.publish(EXCHANGE_NAME, '', Buffer.from(JSON.stringify({ type: 'novo_pedido', pedido })));
+
+    setTimeout(() => {
+     channel.publish(EXCHANGE_NAME, '', Buffer.from(JSON.stringify({ type: 'novo_pedido', pedido })));
     res.json(pedido);
+       
+
+   
+
+    },5000);
+
+   
   } catch (err) {
     console.error('Erro ao publicar novo pedido:', err);
     res.status(500).send('Erro ao criar pedido');
@@ -116,8 +127,16 @@ appLoja.post('/pedido/:id/status', async (req, res) => {
 
   // Publica o status atualizado
   try {
-    channel.publish(EXCHANGE_NAME, '', Buffer.from(JSON.stringify({ type: 'status_atualizado', pedido })));
-    res.json(pedido);
+
+
+     setTimeout(() => {
+
+      channel.publish(EXCHANGE_NAME, '', Buffer.from(JSON.stringify({ type: 'status_atualizado', pedido })));
+      res.json(pedido);
+   
+    },5000);
+
+   
   } catch (err) {
     console.error('Erro ao publicar status atualizado:', err);
     res.status(500).send('Erro ao atualizar status');
@@ -140,6 +159,7 @@ async function startWS() {
     }
 
     // Cria fila exclusiva para este servidor WS escutar a exchange
+
     const q = await channel.assertQueue('', { exclusive: true });
     await channel.bindQueue(q.queue, EXCHANGE_NAME, '');
 
