@@ -76,17 +76,17 @@ appCliente.post('/pedido', async (req, res) => {
 
   // Publica no RabbitMQ para avisar outros serviços
   try {
+    channel.publish(EXCHANGE_NAME, '', Buffer.from(JSON.stringify({ type: 'novo_pedido', pedido })));
 
     setTimeout(() => {
-     channel.publish(EXCHANGE_NAME, '', Buffer.from(JSON.stringify({ type: 'novo_pedido', pedido })));
-    res.json(pedido);
-       
+    pedido.status = 'Em preparo';
+    channel.publish(EXCHANGE_NAME, '', Buffer.from(JSON.stringify({ type: 'status_atualizado', pedido })));
+   },5000);
 
-   
+   res.json(pedido);
 
-    },5000);
 
-   
+
   } catch (err) {
     console.error('Erro ao publicar novo pedido:', err);
     res.status(500).send('Erro ao criar pedido');
@@ -128,13 +128,9 @@ appLoja.post('/pedido/:id/status', async (req, res) => {
   // Publica o status atualizado
   try {
 
-
-     setTimeout(() => {
-
       channel.publish(EXCHANGE_NAME, '', Buffer.from(JSON.stringify({ type: 'status_atualizado', pedido })));
       res.json(pedido);
-   
-    },5000);
+
 
    
   } catch (err) {
