@@ -1,4 +1,4 @@
-<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&pause=1000&width=850&lines=Este+%C3%A9+apenas+um+prot%C3%B3tipo+para+fins+educativos!" alt="Typing SVG" />
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&pause=1000&width=850&lines=Este+%C3%A9+apenas+um+prot%C3%B3tipo+para+fins+educativos!&color=6A0DAD" alt="Typing SVG" />
 
 # 🧾 Tecnologias utilizadas
 <p>
