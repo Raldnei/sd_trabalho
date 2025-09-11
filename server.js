@@ -77,12 +77,10 @@ appCliente.post('/pedido', async (req, res) => {
   // Publica no RabbitMQ para avisar outros serviços
   try {
     channel.publish(EXCHANGE_NAME, '', Buffer.from(JSON.stringify({ type: 'novo_pedido', pedido })));
-
     setTimeout(() => {
     pedido.status = 'Em preparo';
     channel.publish(EXCHANGE_NAME, '', Buffer.from(JSON.stringify({ type: 'status_atualizado', pedido })));
-   },5000);
-
+   },10000);
    res.json(pedido);
 
 
